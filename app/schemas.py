@@ -34,3 +34,22 @@ class BookResponse  (BookBase):
     class Config:
         from_attributes = True # Like @JsonFormat(shape=JsonFormat.Shape.STRING)  # Converts SQLAlchemy model to Pydantic automatically
 
+## Key Concepts:
+"""
+1. BookBase - Common fields with validation rules
+2. BookCreate - For POST requests (like @RequestBody in Java)
+3. BookUpdate - For PUT requests with optional fields
+4. BookResponse - For responses, includes the database ID
+5. Field(...) - Validation rules (like Bean Validation annotations)
+
+## Validation Mapping:
+
+Field(..., min_length=1)          # @NotEmpty @Size(min=1)
+Field(None, ge=1000, le=2030)     # @Min(1000) @Max(2030)
+Optional[str]                     # Field can be null/None
+
+## The Data Flow:
+
+POST JSON → BookCreate → Book Model → Database
+Database → Book Model → BookResponse → JSON Response
+"""
